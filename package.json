@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "description": "Validates and describes rtcm output",
   "type": "module",
-  "main": "cli.js",
+  "main": "index.js",
   "bin": {
-    "npx": "./cli.js"
+    "whatrtcm": "./cli.js"
   },
-  "scripts": {
-    "start": "node cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloewen8/whatrtcm.git"
   },
+  "bugs": {
+    "url": "https://github.com/cloewen8/whatrtcm/issues"
+  },
+  "homepage": "https://github.com/cloewen8/whatrtcm#readme",
   "keywords": [
     "rtcm",
     "cli"
   ],
-  "author": "Colton Loewen",
+  "author": "Colton",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@gnss/rtcm": "^0.1.5",

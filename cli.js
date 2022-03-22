@@ -5,7 +5,7 @@
 // 5. Collect results
 // 6. Output results
 
-import * as RTCM from '@gnss/rtcm'
+import whatRTCM from '.'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { Readable } from 'stream'
@@ -24,35 +24,6 @@ const cli = yargs(hideBin(process.argv))
 		type: 'string'
 	})
 const opts = cli.parse()
-
-function whatRTCM(stream) {
-	const whatTypes = {}
-	stream
-		.pipe(new RTCM.RtcmDecodeTransformStream())
-		.on('data', function(data) {
-			if (data instanceof RTCM.RtcmMessage) {
-				const typeName = `MT${data.messageType}`
-				if (!whatTypes.hasOwnProperty(typeName))
-					whatTypes[typeName] = 0
-				whatTypes[typeName]++
-			}
-		})
-		.on('error', function(err) {
-			console.error(`Unable to read rtcm data, ${err.message}: ${err.stack}`)
-		})
-		.on('finish', function() {
-			console.log('Finished reading RTCM messages.')
-			console.log()
-			if (whatTypes.length > 0) {
-				const total = Object.values(whatTypes).reduce((v, n) => n += v).toString()
-				for (const [whatName, whatCount] of Object.entries(whatTypes))
-					console.log(`${whatName}: ${whatCount.toString().padStart(total.length)}`)
-				console.log('Total:  ' + total)
-			} else {
-				console.log('No RTCM messages found.')
-			}
-		})
-}
 
 if (opts.file !== undefined) {
 	whatRTCM(createFSStream(opts.file))
