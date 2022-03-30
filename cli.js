@@ -5,7 +5,7 @@
 // 5. Collect results
 // 6. Output results
 
-import whatRTCM from '.'
+import whatRTCM from './index.js'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { Readable } from 'stream'
@@ -27,7 +27,7 @@ const opts = cli.parse()
 
 if (opts.file !== undefined) {
 	whatRTCM(createFSStream(opts.file))
-} else if (opts._ !== undefined) {
+} else if (opts._ !== undefined && opts._[0] !== undefined) {
 	const stream = new Readable()
 	stream._read = () => {}
 	stream.push(opts._.reduce((v, to) => to += v))
