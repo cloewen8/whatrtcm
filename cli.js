@@ -1,10 +1,3 @@
-// 1. Import rtcm and yargs
-// 2. Show cli options
-// 3. Open a readable stream with input
-// 4. Pass through rtcm decoder
-// 5. Collect results
-// 6. Output results
-
 import whatRTCM from './index.js'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
