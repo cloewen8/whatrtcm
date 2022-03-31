@@ -5,11 +5,16 @@ import { Readable } from 'stream'
 import { createReadStream as createFSStream } from 'fs'
 
 const cli = yargs(hideBin(process.argv))
-	.usage('Validates and describes rtcm data. Either a file or data must be provided.\n\nUsage: $0 [-f file] [data]')
+	.usage('Validates and describes rtcm data. Either a file or data must be provided.\n\nUsage: $0 [-f file] [-h hex] [data]')
 	.command('$0')
 	.option('file', {
 		alias: 'f',
 		describe: 'A file containing rtcm messages',
+		type: 'string'
+	})
+	.option('hexedecimal', {
+		alias: 'h',
+		describe: 'A hex string to convert',
 		type: 'string'
 	})
 	.positional('data', {
@@ -20,6 +25,12 @@ const opts = cli.parse()
 
 if (opts.file !== undefined) {
 	whatRTCM(createFSStream(opts.file))
+} else if (opts.hexedecimal !== undefined) {
+	const stream = new Readable()
+	stream._read = () => {}
+	stream.push(Buffer.from(opts.hexedecimal, 'hex'))
+	stream.push(null)
+	whatRTCM(stream)
 } else if (opts._ !== undefined && opts._[0] !== undefined) {
 	const stream = new Readable()
 	stream._read = () => {}
